@@ -1,0 +1,119 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Estilos del contenedor */
+.container {
+    background: white;
+    width: 700px; /* Ancho fijo */
+    height: 800px; /* Alto fijo */
+    padding: 20px;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8); /* Sombra */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    align-items: center;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+/* Contenedor donde van las tarjetas, con scroll */
+.players-list {
+    flex: 1;
+    overflow-y: auto; /* Habilita el scroll vertical */
+    max-height: 100%;
+    padding-right: 10px; /* Espacio para evitar que el scroll tape el contenido */
+}
+
+/* Tarjeta de cada jugador */
+.player-card {
+    background: #f0f0f0;
+    border-radius: 8px;
+    padding: 60px;
+    display: flex;
+    width: 400px;
+    align-items: center;
+    gap: 100px;
+    margin-bottom: 70px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.player-card p {
+    font-size: 18px;  /* Tamaño más grande */
+    font-weight: bold; /* Texto en negrita */
+    margin: 0;         /* Eliminamos márgenes innecesarios */
+    flex: 1;           /* Hace que el texto use el espacio disponible */
+    text-align: left;  /* Alineamos el texto a la izquierda */
+}
+
+#playerInput {
+    width: 95%;
+    padding: 10px;
+    margin-bottom: 75px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.hidden-label {
+    position: absolute;
+    left: -9999px; /* Lo mueve fuera de la pantalla */
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.counter {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #cdd8a3; /* Color similar al de la imagen */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin: 10px auto; /* Centrado */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos de los nombres de los jugadores */
+.player-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    padding: 10px;
+}
+
+.club-connection {
+    width: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    background-color: #f0f0f0;
+    padding: 8px 15px;
+    border-radius: 10px;
+    margin-bottom: 70px;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
