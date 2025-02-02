@@ -12,7 +12,10 @@ class Team(models.Model):
 class Player(models.Model):
     player_id = models.CharField(primary_key=True, max_length=10)
     player_name = models.CharField(max_length=120, null=False)
-    teams = models.ManyToManyField(Team)
 
     def __str__(self):
         return self.player_name
+
+class PlayerTeams(models.Model):
+    player_id = models.ForeignKey(Player, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
