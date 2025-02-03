@@ -3,28 +3,45 @@ import json
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from unidecode import unidecode
 
 from footballnerds.models import Player, Club, PlayerClubs
 
 
 # Create your views here.
 def index(request):
+    first_player = get_random_player(request)
+    return render(request, "index.html", {'first_player': first_player})
+
+
+def get_random_player(request):
+    last_player_id = request.session.get("last_player_id")
+
     request.session.clear()
-    # Loads the first player to play off from
-    random_player = Player.objects.order_by('?')[0]
+
+    if last_player_id:
+        random_player = Player.objects.get(player_id=last_player_id)
+    else:
+        random_player = Player.objects.order_by('?').first()
+
     request.session["last_player_id"] = random_player.player_id
-    return render(request, "index.html", {'first_player': random_player})
+
+    return random_player
+
 
 
 # search/?players=
 def search_player(request):
-    players = request.GET.get("players")
+    players = request.GET.get("players", "").strip()
     payload = []
+
     if players:
-        players_objs = Player.objects.filter(player_name__icontains=players)
+        normalized_query = unidecode(players.lower())
+        players_objs = Player.objects.all()
 
         for player in players_objs:
-            payload.append(player.__str__())
+            if normalized_query in unidecode(player.player_name.lower()):
+                payload.append(player.__str__())
 
     return JsonResponse({'status': 200, 'data':payload})
 
@@ -49,6 +66,7 @@ def validate_club(request):
                     common_clubs.append(club.club_name)
 
     if common_clubs:
+        request.session["last_player_id"] = new_player.player_id
         return JsonResponse({'status': 200, 'player':{
                         "id": new_player.player_id, #Acá podría ir la foto derecho
                         "name": new_player.player_name,
