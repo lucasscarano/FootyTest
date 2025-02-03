@@ -46,6 +46,9 @@
                 console.log(input)
                 const url = `/search/?players=${input}`
                 return new Promise(resolve => {
+                    if (input.length < 3) {
+                        return resolve([])
+                    }
                     fetch(url)
                         .then(response => response.json())
                         .then(data => {
@@ -53,10 +56,13 @@
                             resolve(data.data)
                         })
                 })
+
             },
+            autoSelect: true,
             onSubmit : result => {
                 addPlayer(result)
             }
+
         })
 
         function getToken(name) {
