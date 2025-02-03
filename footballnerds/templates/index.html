@@ -56,11 +56,12 @@
                             resolve(data.data)
                         })
                 })
-
             },
             autoSelect: true,
             onSubmit : result => {
-                addPlayer(result)
+                addPlayer(result);
+                const input = document.querySelector('#autocomplete .autocomplete-input');
+                input.value = "";
             }
 
         })
