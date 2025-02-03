@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
+    background-color: #121212;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,7 +10,7 @@ body {
 
 /* Estilos del contenedor */
 .container {
-    background: white;
+    background: #282828;
     width: 700px; /* Ancho fijo */
     height: 800px; /* Alto fijo */
     padding: 20px;
@@ -19,7 +19,6 @@ body {
     text-align: center;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
     align-items: center;
 }
 
@@ -37,19 +36,21 @@ body {
     overflow-y: auto; /* Habilita el scroll vertical */
     max-height: 100%;
     padding-right: 10px; /* Espacio para evitar que el scroll tape el contenido */
+    padding-left: 10px;
+    padding-top: 10px;
 }
 
 /* Tarjeta de cada jugador */
 .player-card {
-    background: #f0f0f0;
+    background: #3f3f3f;
     border-radius: 8px;
-    padding: 60px;
+    padding: 50px;
     display: flex;
     width: 400px;
     align-items: center;
     gap: 100px;
     margin-bottom: 70px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 2px 2px #58bcad;
 }
 
 .player-card p {
@@ -58,6 +59,7 @@ body {
     margin: 0;         /* Eliminamos márgenes innecesarios */
     flex: 1;           /* Hace que el texto use el espacio disponible */
     text-align: left;  /* Alineamos el texto a la izquierda */
+    color: #f0f0f0;
 }
 
 .autocomplete {
@@ -80,13 +82,13 @@ body {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background-color: #cdd8a3; /* Color similar al de la imagen */
+    background-color: #58bcad;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 24px;
     font-weight: bold;
-    color: #333;
+    color: #282828;
     margin: 10px auto; /* Centrado */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
@@ -95,7 +97,7 @@ body {
 .player-name {
     font-size: 18px;
     font-weight: bold;
-    color: #111;
+    color: #fff;
     padding: 10px;
 }
 
@@ -123,11 +125,20 @@ body {
     align-items: center;
     justify-content: center;
     gap: 50px;
-    background-color: #f0f0f0;
+    background-color: #3f3f3f;
     padding: 8px 15px;
     border-radius: 10px;
     font-weight: bold;
     font-size: 12px;
     text-transform: uppercase;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.club-connection p {
+    font-size: 12px;  /* Tamaño más grande */
+    font-weight: bold; /* Texto en negrita */
+    margin: 0;         /* Eliminamos márgenes innecesarios */
+    flex: 1;           /* Hace que el texto use el espacio disponible */
+    text-align: left;  /* Alineamos el texto a la izquierda */
+    color: #f0f0f0;
 }
