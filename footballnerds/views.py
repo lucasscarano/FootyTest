@@ -9,7 +9,11 @@ from footballnerds.models import Player, Club, PlayerClubs
 
 # Create your views here.
 def index(request):
-    return render(request, "index.html")
+    request.session.clear()
+    # Loads the first player to play off from
+    random_player = Player.objects.order_by('?')[0]
+    request.session["last_player_id"] = random_player.player_id
+    return render(request, "index.html", {'first_player': random_player})
 
 
 # search/?players=
@@ -24,20 +28,31 @@ def search_player(request):
 
     return JsonResponse({'status': 200, 'data':payload})
 
-
+@csrf_exempt
 def validate_club(request):
     data = json.loads(request.body)
     player_name = data.get('playerName')
 
-    #last_player_id = request.session.get("last_player_id")
-    #last_player = Player.objects.filter(player_id=last_player_id)
+    last_player_id = request.session.get("last_player_id")
+    last_player = Player.objects.get(player_id=last_player_id)
+    last_player_clubs = last_player.clubs
+
 
     new_player = Player.objects.filter(player_name=player_name).first()
+    new_player_clubs = new_player.clubs
 
-    if new_player:
+    common_clubs = []
+    for x in new_player_clubs:
+        for y in last_player_clubs:
+            if set(x) == set(y):
+                for club in x:
+                    common_clubs.append(club.club_name)
+
+    if common_clubs:
         return JsonResponse({'status': 200, 'player':{
                         "id": new_player.player_id, #Acá podría ir la foto derecho
-                        "name": new_player.player_name
+                        "name": new_player.player_name,
+                        "clubs": common_clubs,
                     }})
 
     return JsonResponse({'status': 400, })

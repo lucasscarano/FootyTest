@@ -33,7 +33,7 @@
 
             <div class="player-card">
                 <img src="#" alt="Foto">
-                <p>Nombre de Jugador</p>
+                <p>{{ first_player.player_name }}</p>
             </div>
 
             <!-- Más jugadores se agregarán aquí dinámicamente -->
@@ -108,18 +108,20 @@
 
             let card = document.createElement("div");
             let club_container = document.createElement("div")
-            let connection = document.createElement("div")
 
             card.classList.add("player-card");
             card.innerHTML = `<img src="#" alt="Foto"> <p>${data.player.name}</p>`;
 
-            connection.classList.add("club-connection");
-            connection.innerHTML = `<img src="#" alt="Escudo"><p>Nombre Club</p>`;
-
             club_container.classList.add("club-container");
 
+            data.player.clubs.forEach(club => {
+                let connection = document.createElement("div");
+                connection.classList.add("club-connection");
+                connection.innerHTML = `<img src="#" alt="Escudo"><p>${club}</p>`;
+                club_container.appendChild(connection);
+            });
+
             container.prepend(club_container);
-            club_container.prepend(connection);
             container.prepend(card);
 
             container.scrollTop = 0;

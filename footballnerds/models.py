@@ -19,6 +19,15 @@ class Player(models.Model):
     def __str__(self):
         return self.player_name
 
+    @property
+    def clubs(self):
+        clubs = []
+        player_clubs = PlayerClubs.objects.filter(player_id=self.player_id)
+        for player_club in player_clubs:
+            clubs.append(Club.objects.filter(club_id=player_club.club_id))
+
+        return clubs
+
 class PlayerClubs(models.Model):
-    player_id = models.ForeignKey(Player, on_delete=models.CASCADE)
-    club_id = models.ForeignKey(Club, on_delete=models.CASCADE)
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE)
