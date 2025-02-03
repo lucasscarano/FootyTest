@@ -36,15 +36,6 @@
                 <p>Nombre de Jugador</p>
             </div>
 
-            <div class="club-connection">
-                <img src="#" alt="Escudo Club">
-                <p>Nombre Club</p>
-            </div>
-
-            <div class="player-card">
-                <img src="#" alt="Foto">
-                <p>Nombre de Jugador</p>
-            </div>
             <!-- Más jugadores se agregarán aquí dinámicamente -->
         </div>
     </div>
@@ -108,17 +99,19 @@
 
         function createPlayerCard(data){
             let container = document.getElementById("players-list");
+
             let card = document.createElement("div");
             let connection = document.createElement("div")
+
             connection.classList.add("club-connection");
             connection.innerHTML = `<img src="#" alt="Escudo Club"><p>Nombre Club</p>`;
             card.classList.add("player-card");
             card.innerHTML = `<img src="#" alt="Foto"> <p>${data.player.name}</p>`;
 
-            container.appendChild(connection);
-            container.appendChild(card);
+            container.prepend(connection);
+            container.prepend(card);
 
-            card.scrollIntoView({ behavior: "smooth", block: "end" });
+            container.scrollTop = 0;
         }
     </script>
 </body>
