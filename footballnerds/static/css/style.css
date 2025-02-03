@@ -95,12 +95,30 @@ body {
 .player-name {
     font-size: 18px;
     font-weight: bold;
-    color: #333;
+    color: #111;
     padding: 10px;
 }
 
-.club-connection {
+.club-container {
+    max-height: 100px;
     width: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 8px 15px;
+    border-radius: 10px;
+    margin-bottom: 70px;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.club-connection{
+    height: 20px;
+    width: 300px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -108,9 +126,8 @@ body {
     background-color: #f0f0f0;
     padding: 8px 15px;
     border-radius: 10px;
-    margin-bottom: 70px;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 12px;
     text-transform: uppercase;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }

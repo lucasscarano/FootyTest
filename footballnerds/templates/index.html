@@ -101,14 +101,19 @@
             let container = document.getElementById("players-list");
 
             let card = document.createElement("div");
+            let club_container = document.createElement("div")
             let connection = document.createElement("div")
 
-            connection.classList.add("club-connection");
-            connection.innerHTML = `<img src="#" alt="Escudo Club"><p>Nombre Club</p>`;
             card.classList.add("player-card");
             card.innerHTML = `<img src="#" alt="Foto"> <p>${data.player.name}</p>`;
 
-            container.prepend(connection);
+            connection.classList.add("club-connection");
+            connection.innerHTML = `<img src="#" alt="Escudo"><p>Nombre Club</p>`;
+
+            club_container.classList.add("club-container");
+
+            container.prepend(club_container);
+            club_container.prepend(connection);
             container.prepend(card);
 
             container.scrollTop = 0;
