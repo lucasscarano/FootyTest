@@ -5,12 +5,13 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from unidecode import unidecode
 
-from footballnerds.models import Player, Club, PlayerClubs
+from footballnerds.models import Player
 
 
 # Create your views here.
 def index(request):
     first_player = get_random_player(request)
+    # TODO: Timer
     return render(request, "index.html", {'first_player': first_player})
 
 
@@ -54,7 +55,6 @@ def validate_club(request):
     last_player = Player.objects.get(player_id=last_player_id)
     last_player_clubs = last_player.clubs
 
-
     new_player = Player.objects.filter(player_name=player_name).first()
     new_player_clubs = new_player.clubs
 
@@ -65,6 +65,9 @@ def validate_club(request):
                 for club in x:
                     common_clubs.append(club.club_name)
 
+    # TODO: Load played players into a session array to later check if it has been already played
+    # TODO: Limit on played clubs? I.E. Liverpool has been played 3 times already
+    # TODO: Limited skips? Go back to the other user with the same player. OR play a random top player
     if common_clubs:
         request.session["last_player_id"] = new_player.player_id
         return JsonResponse({'status': 200, 'player':{
