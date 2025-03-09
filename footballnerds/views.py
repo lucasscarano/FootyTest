@@ -10,6 +10,7 @@ from footballnerds.models import Player
 
 # Create your views here.
 def index(request):
+    request.session.clear()
     first_player = get_random_player(request)
     # TODO: Timer
     return render(request, "index.html", {'first_player': first_player})
@@ -23,7 +24,8 @@ def get_random_player(request):
     if last_player_id:
         random_player = Player.objects.get(player_id=last_player_id)
     else:
-        random_player = Player.objects.order_by('?').first()
+        random_player = Player.objects.order_by('?')
+        random_player = random_player.filter(max_transfer_value__gte=40_000_000).first()
 
     request.session["last_player_id"] = random_player.player_id
 
@@ -38,7 +40,7 @@ def search_player(request):
 
     if players:
         normalized_query = unidecode(players.lower())
-        players_objs = Player.objects.all()
+        players_objs = Player.objects.all().order_by('max_transfer_value')
 
         for player in players_objs:
             if normalized_query in unidecode(player.player_name.lower()):

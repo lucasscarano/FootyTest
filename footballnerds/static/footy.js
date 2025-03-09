@@ -38,6 +38,8 @@ function getToken(name) {
 }
 let csrftoken = getToken('csrftoken')
 
+let timer;
+
 function addPlayer(playerName){
     fetch('/validate_club/', {
         method: 'POST',
@@ -53,6 +55,7 @@ function addPlayer(playerName){
     .then(data => {
         if (data.status === 200) {
             createPlayerCard(data);
+            startTimer()
         } else {
             alert("There's no clubs in common between the players.");
         }
@@ -82,4 +85,25 @@ function createPlayerCard(data){
     container.prepend(card);
 
     container.scrollTop = 0;
+}
+
+function startTimer(){
+    clearInterval(timer);
+    let timeLeft = 30;
+    document.getElementById("timerValue").innerText = `${timeLeft}`;
+
+    timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timerValue").innerText = `${timeLeft}`;
+
+        if (timeLeft <= 0){
+            clearInterval(timer);
+            gameOver();
+        }
+    }, 1000)
+}
+
+function gameOver(){
+    const input = document.querySelector('#autocomplete .autocomplete-input');
+    input.disabled = true;
 }

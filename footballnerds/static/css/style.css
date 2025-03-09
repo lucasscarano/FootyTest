@@ -44,7 +44,7 @@ body {
 .player-card {
     background: #3f3f3f;
     border-radius: 8px;
-    padding: 50px;
+    padding: 30px;
     display: flex;
     width: 400px;
     align-items: center;
@@ -78,7 +78,7 @@ body {
     overflow: hidden;
 }
 
-.counter {
+.timer {
     width: 80px;
     height: 80px;
     border-radius: 50%;
