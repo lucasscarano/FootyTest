@@ -1,6 +1,5 @@
 new Autocomplete('#autocomplete', {
     search : input => {
-        console.log(input)
         const url = `/search/?players=${input}`
         return new Promise(resolve => {
             if (input.length < 3) {
@@ -9,7 +8,6 @@ new Autocomplete('#autocomplete', {
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data)
                     resolve(data.data)
                 })
         })
@@ -68,14 +66,15 @@ function createPlayerCard(data){
     let club_container = document.createElement("div")
 
     card.classList.add("player-card");
-    card.innerHTML = `<img src="#" alt="Foto"> <p>${data.player.name}</p>`;
+    card.innerHTML = `<img src="${data.player.player_photo_url}" alt="Foto"> <p>${data.player.name}</p>`;
 
     club_container.classList.add("club-container");
 
     data.player.clubs.forEach(club => {
         let connection = document.createElement("div");
+
         connection.classList.add("club-connection");
-        connection.innerHTML = `<img src="#" alt="Escudo"><p>${club}</p>`;
+        connection.innerHTML = `<img src="${club[1]}" alt="Escudo"><p>${club[0]}</p>`;
         club_container.appendChild(connection);
     });
 

@@ -63,17 +63,21 @@ def validate_club(request):
         for y in last_player_clubs:
             if set(x) == set(y):
                 for club in x:
-                    common_clubs.append(club.club_name)
+                    common_clubs.append([club.club_name, club.logo_url])
 
     # TODO: Load played players into a session array to later check if it has been already played
     # TODO: Limit on played clubs? I.E. Liverpool has been played 3 times already
     # TODO: Limited skips? Go back to the other user with the same player. OR play a random top player
+
     if common_clubs:
         request.session["last_player_id"] = new_player.player_id
         return JsonResponse({'status': 200, 'player':{
-                        "id": new_player.player_id, #Acá podría ir la foto derecho
+                        "id": new_player.player_id,
                         "name": new_player.player_name,
                         "clubs": common_clubs,
+                        "player_photo_url": new_player.player_photo_url,
                     }})
 
     return JsonResponse({'status': 400, })
+
+#TODO: add list of players played in this game, so you can't repeat them.
