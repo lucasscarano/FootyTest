@@ -63,10 +63,10 @@ function addPlayer(playerName){
 }
 
 function createPlayerCard(data){
-    let container = document.getElementById("players-list");
+    const container = document.getElementById("players-list");
 
-    let card = document.createElement("div");
-    let club_container = document.createElement("div")
+    const card = document.createElement("div");
+    const club_container = document.createElement("div")
 
     card.classList.add("player-card");
     card.innerHTML = `<img src="${data.player.player_photo_url}" alt="Foto">
@@ -78,7 +78,7 @@ function createPlayerCard(data){
     club_container.classList.add("club-container");
 
     data.player.clubs.forEach(club => {
-        let connection = document.createElement("div");
+        const connection = document.createElement("div");
 
         connection.classList.add("club-connection");
         connection.innerHTML = `<img src="${club[1]}" alt="Escudo"><p>${club[0]}</p>`;
@@ -93,7 +93,7 @@ function createPlayerCard(data){
 
 function startTimer(){
     clearInterval(timer);
-    let timeLeft = 5;
+    let timeLeft = 30;
     document.getElementById("timerValue").innerText = `${timeLeft}`;
 
     timer = setInterval(() => {
