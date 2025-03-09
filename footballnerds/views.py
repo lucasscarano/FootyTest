@@ -12,7 +12,8 @@ from footballnerds.models import Player
 def index(request):
     request.session.clear()
     first_player = get_random_player(request)
-    # TODO: Timer
+    request.session["played_players"] = [first_player.player_id]
+
     return render(request, "index.html", {'first_player': first_player})
 
 
@@ -58,6 +59,8 @@ def validate_club(request):
     last_player_clubs = last_player.clubs
 
     new_player = Player.objects.filter(player_name=player_name).first()
+    if new_player.player_id in request.session["played_players"]:
+        return JsonResponse({'status': 400, 'message': "Player has already been played"})
     new_player_clubs = new_player.clubs
 
     common_clubs = []
@@ -67,19 +70,21 @@ def validate_club(request):
                 for club in x:
                     common_clubs.append([club.club_name, club.logo_url])
 
-    # TODO: Load played players into a session array to later check if it has been already played
-    # TODO: Limit on played clubs? I.E. Liverpool has been played 3 times already
-    # TODO: Limited skips? Go back to the other user with the same player. OR play a random top player
-
     if common_clubs:
         request.session["last_player_id"] = new_player.player_id
+        request.session["played_players"].append(new_player.player_id)
         return JsonResponse({'status': 200, 'player':{
-                        "id": new_player.player_id,
-                        "name": new_player.player_name,
+                        "player_id": new_player.player_id,
+                        "player_name": new_player.player_name,
+                        "max_transfer_value":new_player.max_transfer_value,
+                        "flag_url":new_player.nationality.flag_url,
                         "clubs": common_clubs,
                         "player_photo_url": new_player.player_photo_url,
                     }})
 
-    return JsonResponse({'status': 400, })
+    return JsonResponse({'status': 400, 'message': "There's no clubs in common between the players."})
 
-#TODO: add list of players played in this game, so you can't repeat them.
+#TODO: change alerts in js for good looking messages
+# TODO: Load played players into a session array to later check if it has been already played
+# TODO: Limit on played clubs? I.E. Liverpool has been played 3 times already
+# TODO: Limited skips? Go back to the other user with the same player. OR play a random top player

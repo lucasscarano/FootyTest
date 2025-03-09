@@ -57,7 +57,7 @@ function addPlayer(playerName){
             createPlayerCard(data);
             startTimer()
         } else {
-            alert("There's no clubs in common between the players.");
+            alert(data.message);
         }
     })
 }
@@ -69,7 +69,11 @@ function createPlayerCard(data){
     let club_container = document.createElement("div")
 
     card.classList.add("player-card");
-    card.innerHTML = `<img src="${data.player.player_photo_url}" alt="Foto"> <p>${data.player.name}</p>`;
+    card.innerHTML = `<img src="${data.player.player_photo_url}" alt="Foto">
+                      <div class="name">
+                          <img src="${data.player.flag_url}" alt="Bandera">  
+                          <p>${data.player.player_name}</p>
+                      </div>`;
 
     club_container.classList.add("club-container");
 
@@ -89,7 +93,7 @@ function createPlayerCard(data){
 
 function startTimer(){
     clearInterval(timer);
-    let timeLeft = 30;
+    let timeLeft = 5;
     document.getElementById("timerValue").innerText = `${timeLeft}`;
 
     timer = setInterval(() => {
@@ -106,4 +110,19 @@ function startTimer(){
 function gameOver(){
     const input = document.querySelector('#autocomplete .autocomplete-input');
     input.disabled = true;
+    const container = document.getElementById('container');
+    container.style.setProperty('-webkit-filter', 'blur(5px)')
+
+    const body = document.body;
+    const message = document.createElement("div");
+    message.classList.add("message");
+    message.innerHTML = `<p>Game Over</p>
+                         <button class="restart-btn">Play Again</button>`;
+
+    body.append(message);
+
+    document.querySelector('.restart-btn').addEventListener('click', () => {
+        location.reload();
+    });
+
 }

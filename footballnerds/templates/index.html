@@ -10,7 +10,7 @@
     <script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="container">
         <div class="header">
             <span class="player-name">Player1</span>
 
@@ -22,7 +22,7 @@
         </div>
 
         <div id="autocomplete" class="autocomplete">
-            <input class="autocomplete-input" placeholder="Escribe el nombre del jugador...">
+            <input class="autocomplete-input" placeholder="Write a player's name...">
             <ul class="autocomplete-result-list"></ul>
         </div>
 
@@ -31,7 +31,10 @@
 
             <div class="player-card">
                 <img src="{{ first_player.player_photo_url }}" alt="Foto">
-                <p>{{ first_player.player_name }}</p>
+                <div class="name">
+                    <img src="{{ first_player.nationality.flag_url }}" alt="Bandera">
+                    <p>{{ first_player.player_name }}</p>
+                </div>
             </div>
 
             <!-- Javascript adds more player cards here -->
