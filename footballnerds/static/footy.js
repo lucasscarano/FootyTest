@@ -57,7 +57,7 @@ function addPlayer(playerName){
             createPlayerCard(data);
             startTimer()
         } else {
-            alert(data.message);
+            notification(data.message);
         }
     })
 }
@@ -125,4 +125,22 @@ function gameOver(){
         location.reload();
     });
 
+}
+
+function notification(message){
+    const container = document.getElementById("notification-container");
+    if (container.classList.length > 0){
+        // Removes notifications if it's called again while animation is still going.
+        container.textContent = '';
+    }
+    const notification = document.createElement('div');
+    notification.classList.add('notification');
+    notification.innerHTML = `<p>${message}</p>`;
+    container.appendChild(notification);
+
+    notification.addEventListener('animationend', (e) => {
+        if (e.animationName === 'slideUp'){
+            notification.remove();
+        }
+    })
 }

@@ -25,7 +25,7 @@ body {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
 }
 
 .players-list {
@@ -68,7 +68,6 @@ body {
 
 .autocomplete {
     width: 50%;
-    margin-bottom: 75px;
     border-radius: 5px;
     font-size: 16px;
     text-align: center;
@@ -83,8 +82,8 @@ body {
 }
 
 .timer {
-    width: 80px;
-    height: 80px;
+    width: 5rem;
+    height: 5rem;
     border-radius: 50%;
     background-color: #58bcad;
     display: flex;
@@ -176,4 +175,48 @@ body {
 
 .restart-btn:hover {
     background-color: #4aa294;
+}
+
+.notification-container {
+    height: 5rem;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+}
+
+.notification {
+    background-color: #323232;
+    color: #e0e0e0;
+    font-size: 0.775rem;
+    font-family: 'Arial', sans-serif;
+    padding: 1em 1.5em;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.2);
+    max-width: 90%;
+    width: fit-content;
+    margin: 0 2rem;
+    animation: slideDown 0.3s ease-out, slideUp 0.3s ease-in 3s forwards;
+    position: relative;
 }
