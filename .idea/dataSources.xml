@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="db" uuid="829b426c-7e55-4cad-a0bf-c968aa0104b9">
+    <data-source source="LOCAL" name="db" uuid="b1d281a8-09a6-4f0f-ba24-d515f10b0da9">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:D:\scara\Documents\FootyTest\db.sqlite3</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\scara\OneDrive\Documentos\GitHub\FootyTest\db.sqlite3</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
       <libraries>
         <library>

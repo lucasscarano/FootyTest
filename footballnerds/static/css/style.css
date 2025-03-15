@@ -8,14 +8,13 @@ body {
     margin: 0;
 }
 
-/* Estilos del contenedor */
 .container {
     background: #282828;
-    width: 600px; /* Ancho fijo */
-    height: 900px; /* Alto fijo */
+    width: 40rem;
+    height: 40rem;
     padding: 2vh;
-    border-radius: 10px; /* Bordes redondeados */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8); /* Sombra */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -29,17 +28,15 @@ body {
     margin-bottom: 15px;
 }
 
-/* Contenedor donde van las tarjetas, con scroll */
 .players-list {
     flex: 1;
-    overflow-y: auto; /* Habilita el scroll vertical */
+    overflow-y: auto;
     max-height: 100%;
-    padding-right: 10px; /* Espacio para evitar que el scroll tape el contenido */
+    padding-right: 10px;
     padding-left: 10px;
     padding-top: 10px;
 }
 
-/* Tarjeta de cada jugador */
 .player-card {
     background: #3f3f3f;
     border-radius: 8px;
@@ -61,11 +58,11 @@ body {
 }
 
 .name p {
-    font-size: 18px;  /* Tamaño más grande */
-    font-weight: bold; /* Texto en negrita */
-    margin: 0;         /* Eliminamos márgenes innecesarios */
-    flex: 1;           /* Hace que el texto use el espacio disponible */
-    text-align: left;  /* Alineamos el texto a la izquierda */
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    flex: 1;
+    text-align: left;
     color: #f0f0f0;
 }
 
@@ -79,7 +76,7 @@ body {
 
 .hidden-label {
     position: absolute;
-    left: -9999px; /* Lo mueve fuera de la pantalla */
+    left: -9999px;
     width: 1px;
     height: 1px;
     overflow: hidden;
@@ -96,11 +93,10 @@ body {
     font-size: 24px;
     font-weight: bold;
     color: #282828;
-    margin: 10px auto; /* Centrado */
+    margin: 10px auto;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Estilos de los nombres de los jugadores */
 .player-name {
     font-size: 18px;
     font-weight: bold;
