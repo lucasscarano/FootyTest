@@ -84,7 +84,7 @@ def validate_club(request):
 
     return JsonResponse({'status': 400, 'message': "There's no clubs in common between the players."})
 
-#TODO: change alerts in js for good looking messages
-# TODO: Load played players into a session array to later check if it has been already played
-# TODO: Limit on played clubs? I.E. Liverpool has been played 3 times already
-# TODO: Limited skips? Go back to the other user with the same player. OR play a random top player
+# TODO: change alerts in js for good looking messages
+# TODO: Limit on played clubs links? I.E. Liverpool has been played X times already
+# TODO: Limited skips? Go back to the other user with the same player. OR play a random top player (>40m tm)
+# TODO: Add number of turn being played.
