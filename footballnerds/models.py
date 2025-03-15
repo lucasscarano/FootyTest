@@ -34,7 +34,6 @@ class PlayerClubs(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
     club = models.ForeignKey(Club, on_delete=models.CASCADE)
 
-# TODO: Player1 and Player2 classes
 
 class Nationality(models.Model):
     nationality_id = models.IntegerField(primary_key=True)
@@ -43,3 +42,22 @@ class Nationality(models.Model):
 
     def __str__(self):
         return self.nationality_name
+
+
+class User(models.Model):
+    username = models.CharField(max_length=120, null=False)
+    nationality = models.ForeignKey('Nationality', on_delete=models.CASCADE)
+    wins = models.IntegerField(default=0)
+    losses = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.username
+
+    def lose(self):
+        self.losses +=1
+
+    def win(self):
+        self.wins +=1
+
+    def record(self):
+        return self.wins, ' - ', self.losses
