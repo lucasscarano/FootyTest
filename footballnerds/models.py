@@ -65,9 +65,10 @@ class User(models.Model):
         return self.wins, ' - ', self.losses
 
 class Game(models.Model):
+    game_id = models.IntegerField(primary_key=True)
     user1 = models.ForeignKey('User', on_delete=models.CASCADE, related_name='user1')
     user2 = models.ForeignKey('User', on_delete=models.CASCADE, related_name='user2')
-    current_turn = models.IntegerField(default=0)
+    current_turn = models.IntegerField(default=1)
     user_turn = models.ForeignKey('User', on_delete=models.CASCADE, related_name='user_turn')
 
     def switch_turn(self):

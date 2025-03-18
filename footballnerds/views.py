@@ -5,17 +5,44 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from unidecode import unidecode
 
-from footballnerds.models import Player
+from footballnerds.models import Player, Game, User, Nationality
 
 
 # Create your views here.
 def index(request):
+    # Ask for username if new. (maybe adopt username and password for users)
+    return start_game(request)
+
+def start_game(request):
+    # who is user1 and user2?
+
     request.session.clear()
+
+    user1, _ = User.objects.get_or_create(
+        username="Lucas",
+        nationality_id=9,
+    )
+
+    user2, _ = User.objects.get_or_create(
+        username="Felipe",
+        nationality_id=9,
+    )
+
+    new_game = Game.objects.create(
+        user1=user1,
+        user2=user2,
+        user_turn=user1
+    )
+
+    request.session["game"] = new_game.game_id
+
     first_player = get_random_player(request)
     request.session["played_players"] = [first_player.player_id]
 
-    return render(request, "index.html", {'first_player': first_player})
-
+    return render(request, "index.html",
+                  {'first_player': first_player,
+                   "user1": user1,
+                   "user2": user2,})
 
 def get_random_player(request):
     last_player_id = request.session.get("last_player_id")
@@ -87,3 +114,6 @@ def validate_club(request):
 # TODO: Limit on played clubs links? I.E. Liverpool has been played X times already
 # TODO: Limited skips? Go back to the other user with the same player. OR play a random top player (>40m tm)
 # TODO: Add number of turn being played.
+
+# TODO: Open card before running index, asking the user for his username.
+# TODO: After first: play game, create instance of 'Game' to then reference and change turns.
