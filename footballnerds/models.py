@@ -55,9 +55,22 @@ class User(models.Model):
 
     def lose(self):
         self.losses +=1
+        self.save()
 
     def win(self):
         self.wins +=1
+        self.save()
 
     def record(self):
         return self.wins, ' - ', self.losses
+
+class Game(models.Model):
+    user1 = models.ForeignKey('User', on_delete=models.CASCADE, related_name='user1')
+    user2 = models.ForeignKey('User', on_delete=models.CASCADE, related_name='user2')
+    current_turn = models.IntegerField(default=0)
+    user_turn = models.ForeignKey('User', on_delete=models.CASCADE, related_name='user_turn')
+
+    def switch_turn(self):
+        self.user_turn = self.user1 if self.user_turn == self.user2 else self.user2
+        self.current_turn += 1
+        self.save()
