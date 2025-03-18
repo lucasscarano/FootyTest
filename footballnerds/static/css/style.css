@@ -96,6 +96,12 @@ body {
     padding: 0.625rem;
 }
 
+.record {
+    font-size: 0.725rem;
+    color: #fff;
+    padding: 0.625rem;
+}
+
 .club-container {
     display: flex;
     align-items: center;

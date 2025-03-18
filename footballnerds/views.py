@@ -5,24 +5,24 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from unidecode import unidecode
 
-from footballnerds.models import Player, Game, User, Nationality
+from footballnerds.models import Player, Game, User, GamePlayer
 
 
 # Create your views here.
 def index(request):
     # Ask for username if new. (maybe adopt username and password for users)
+    request.session.clear()
     return start_game(request)
 
 def start_game(request):
-    # who is user1 and user2?
 
-    request.session.clear()
-
+    # TEMPORAL
     user1, _ = User.objects.get_or_create(
         username="Lucas",
         nationality_id=9,
     )
 
+    # TEMPORAL
     user2, _ = User.objects.get_or_create(
         username="Felipe",
         nationality_id=9,
@@ -34,26 +34,23 @@ def start_game(request):
         user_turn=user1
     )
 
-    request.session["game"] = new_game.game_id
+    #Maybe it's better to pass the game_id as a parameter to every
+    # function and not search it in session every time I want to modify whose turn it is
+    request.session["game_id"] = new_game.game_id
 
     first_player = get_random_player(request)
+
     request.session["played_players"] = [first_player.player_id]
 
-    return render(request, "index.html",
+    return render(request, "start_game.html",
                   {'first_player': first_player,
                    "user1": user1,
                    "user2": user2,})
 
+
 def get_random_player(request):
-    last_player_id = request.session.get("last_player_id")
-
-    request.session.clear()
-
-    if last_player_id:
-        random_player = Player.objects.get(player_id=last_player_id)
-    else:
-        random_player = Player.objects.order_by('?')
-        random_player = random_player.filter(max_transfer_value__gte=40_000_000).first()
+    random_player = Player.objects.order_by('?')
+    random_player = random_player.filter(max_transfer_value__gte=40_000_000).first()
 
     request.session["last_player_id"] = random_player.player_id
 
@@ -68,7 +65,7 @@ def search_player(request):
 
     if players:
         normalized_query = unidecode(players.lower())
-        players_objs = Player.objects.all().order_by('max_transfer_value')
+        players_objs = Player.objects.all().order_by('-max_transfer_value')
 
         for player in players_objs:
             if normalized_query in unidecode(player.player_name.lower()):
@@ -98,6 +95,10 @@ def validate_club(request):
                     common_clubs.append([club.club_name, club.logo_url])
 
     if common_clubs:
+        game_id = request.session.get("game_id")
+        game = Game.objects.get(game_id=game_id)
+        load_game_player(game, new_player)
+        game.switch_turn()
         request.session["last_player_id"] = new_player.player_id
         request.session["played_players"].append(new_player.player_id)
         return JsonResponse({'status': 200, 'player':{
@@ -110,6 +111,32 @@ def validate_club(request):
                     }})
 
     return JsonResponse({'status': 400, 'message': "There's no clubs in common between the players."})
+
+
+def load_game_player(game, player):
+    GamePlayer.objects.create(game=game, player=player,
+                              added_by=game.user_turn,
+                              turn_number=game.turn_number)
+
+@csrf_exempt
+def end_game(request):
+    game_id = request.session.get("game_id")
+    game = Game.objects.get(game_id=game_id)
+
+    user_lost = game.user_turn
+    user_won = game.user2 if user_lost == game.user1 else game.user1
+
+    user_lost.lose()
+    user_won.win()
+
+    game.is_active = False
+    game.save()
+    user_lost.save()
+    user_won.save()
+
+    return JsonResponse({'status': 200})
+
+
 
 # TODO: Limit on played clubs links? I.E. Liverpool has been played X times already
 # TODO: Limited skips? Go back to the other user with the same player. OR play a random top player (>40m tm)

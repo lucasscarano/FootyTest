@@ -1,47 +1,10 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FootyNerd</title>
-    <link rel="stylesheet" href="../static/css/style.css">
-    <link rel="stylesheet" href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css"/>
-    <link rel="shortcut icon" type="image/png" href='../static/images/favicon.ico'/>
-    <script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+    <title>Title</title>
 </head>
 <body>
-    <div class="container" id="container">
-        <div class="header">
-            <span class="user-name">{{ user1.username }}</span>
 
-            <div class="timer">
-                <span id="timerValue"></span>
-            </div>
-
-            <span class="user-name">{{ user2.username }}</span>
-        </div>
-
-        <div id="autocomplete" class="autocomplete">
-            <input class="autocomplete-input" placeholder="Write a player's name...">
-            <ul class="autocomplete-result-list"></ul>
-        </div>
-        <div id="notification-container" class="notification-container"></div>
-
-
-        <div class="players-list" id="players-list">
-
-            <div class="player-card">
-                <img src="{{ first_player.player_photo_url }}" alt="Foto">
-                <div class="name">
-                    <img src="{{ first_player.nationality.flag_url }}" alt="Bandera">
-                    <p>{{ first_player.player_name }}</p>
-                </div>
-            </div>
-
-            <!-- Javascript adds more player cards here -->
-        </div>
-    </div>
-
-    <script src="../static/footy.js"></script>
 </body>
 </html>

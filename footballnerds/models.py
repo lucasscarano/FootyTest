@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
@@ -43,9 +44,9 @@ class Nationality(models.Model):
     def __str__(self):
         return self.nationality_name
 
-
+# TODO: Change for AbstractUser
 class User(models.Model):
-    username = models.CharField(max_length=120, null=False)
+    username = models.CharField(max_length=120, null=False, unique=True)
     nationality = models.ForeignKey('Nationality', on_delete=models.CASCADE)
     wins = models.IntegerField(default=0)
     losses = models.IntegerField(default=0)
@@ -62,16 +63,25 @@ class User(models.Model):
         self.save()
 
     def record(self):
-        return self.wins, ' - ', self.losses
+        return str(self.wins) + ' - ' + str(self.losses)
 
 class Game(models.Model):
-    game_id = models.IntegerField(primary_key=True)
+    game_id = models.AutoField(primary_key=True)
     user1 = models.ForeignKey('User', on_delete=models.CASCADE, related_name='user1')
     user2 = models.ForeignKey('User', on_delete=models.CASCADE, related_name='user2')
-    current_turn = models.IntegerField(default=1)
+    turn_number = models.IntegerField(default=1)
     user_turn = models.ForeignKey('User', on_delete=models.CASCADE, related_name='user_turn')
+    is_active = models.BooleanField(default=True)
 
     def switch_turn(self):
         self.user_turn = self.user1 if self.user_turn == self.user2 else self.user2
-        self.current_turn += 1
+        self.turn_number += 1
         self.save()
+
+
+# To get statistics on players played in each game
+class GamePlayer(models.Model):
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name="played_players")
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    added_by = models.ForeignKey('User', on_delete=models.CASCADE, null=True)
+    turn_number = models.IntegerField(default=1)

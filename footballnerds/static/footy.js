@@ -41,7 +41,7 @@ let csrftoken = getToken('csrftoken')
 let timer;
 
 function addPlayer(playerName){
-    fetch('/validate_club/', {
+    fetch('/validate-club/', {
         method: 'POST',
         headers: {
             'Content-Type':'application/json',
@@ -108,6 +108,7 @@ function startTimer(){
 }
 
 function gameOver(){
+    endGame();
     const input = document.querySelector('#autocomplete .autocomplete-input');
     input.disabled = true;
     const container = document.getElementById('container');
@@ -142,5 +143,18 @@ function notification(message){
         if (e.animationName === 'slideUp'){
             notification.remove();
         }
+    })
+}
+
+function endGame() {
+    fetch('/end-game/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            }
+        })
+    .then((response) => {
+        return response.json();
     })
 }
