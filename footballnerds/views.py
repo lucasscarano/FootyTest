@@ -45,7 +45,8 @@ def start_game(request):
     return render(request, "start_game.html",
                   {'first_player': first_player,
                    "user1": user1,
-                   "user2": user2,})
+                   "user2": user2,
+                   "game_turn": new_game.turn_number,})
 
 
 def get_random_player(request):
@@ -108,7 +109,8 @@ def validate_club(request):
                         "flag_url":new_player.nationality.flag_url,
                         "clubs": common_clubs,
                         "player_photo_url": new_player.player_photo_url,
-                    }})
+                        },
+                             "game_turn": game.turn_number})
 
     return JsonResponse({'status': 400, 'message': "There's no clubs in common between the players."})
 

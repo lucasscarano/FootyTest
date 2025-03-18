@@ -85,6 +85,9 @@ function createPlayerCard(data){
         club_container.appendChild(connection);
     });
 
+    if (data.game_turn % 2 === 0) {
+        card.style.boxShadow = "0 0 3px 3px #a818cc"; // Even turns
+    }
     container.prepend(club_container);
     container.prepend(card);
 
