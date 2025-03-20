@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group, Permission
+
 
 # Create your models here.
 
@@ -44,12 +45,14 @@ class Nationality(models.Model):
     def __str__(self):
         return self.nationality_name
 
-# TODO: Change for AbstractUser
-class User(models.Model):
-    username = models.CharField(max_length=120, null=False, unique=True)
-    nationality = models.ForeignKey('Nationality', on_delete=models.CASCADE)
+class User(AbstractUser):
+    username = models.CharField(max_length=30, null=False, unique=True)
+    nationality = models.ForeignKey('Nationality', on_delete=models.CASCADE, null=True)
     wins = models.IntegerField(default=0)
     losses = models.IntegerField(default=0)
+
+    groups = models.ManyToManyField(Group, related_name="footballnerds_user_set", blank=True)
+    user_permissions = models.ManyToManyField(Permission, related_name="footballnerds_user_permissions_set", blank=True)
 
     def __str__(self):
         return self.username

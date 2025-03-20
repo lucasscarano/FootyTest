@@ -1,26 +1,37 @@
 import json
 
+from django.contrib.auth import authenticate, login
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from unidecode import unidecode
 
 from footballnerds.models import Player, Game, User, GamePlayer
 
 
-# Create your views here.
 def index(request):
-    # Ask for username if new. (maybe adopt username and password for users)
-    request.session.clear()
-    return start_game(request)
+    return render(request, "index.html")
+
+#TODO
+def signup(request):
+    return render(request, "signup.html")
+
+#TODO
+def login_user(request):
+    return render(request, "login.html")
+
+def play_as_guest(request):
+    count = User.objects.filter(username__startswith="Guest").count()
+    username = f"Guest#{count + 1}"
+    password = "ajhdfkjhkajdshf"
+
+    user = User.objects.create(username=username, password=password)
+    request.session["username"] = user.username
+    return redirect("start_game")
 
 def start_game(request):
-
-    # TEMPORAL
-    user1, _ = User.objects.get_or_create(
-        username="Lucas",
-        nationality_id=9,
-    )
+    username = request.session.get("username")
+    user = User.objects.get(username=username)
 
     # TEMPORAL
     user2, _ = User.objects.get_or_create(
@@ -29,9 +40,9 @@ def start_game(request):
     )
 
     new_game = Game.objects.create(
-        user1=user1,
+        user1=user,
         user2=user2,
-        user_turn=user1
+        user_turn=user
     )
 
     #Maybe it's better to pass the game_id as a parameter to every
@@ -44,10 +55,9 @@ def start_game(request):
 
     return render(request, "start_game.html",
                   {'first_player': first_player,
-                   "user1": user1,
+                   "user1": user,
                    "user2": user2,
                    "game_turn": new_game.turn_number,})
-
 
 def get_random_player(request):
     random_player = Player.objects.order_by('?')
@@ -56,8 +66,6 @@ def get_random_player(request):
     request.session["last_player_id"] = random_player.player_id
 
     return random_player
-
-
 
 # search/?players=
 def search_player(request):
@@ -114,7 +122,6 @@ def validate_club(request):
 
     return JsonResponse({'status': 400, 'message': "There's no clubs in common between the players."})
 
-
 def load_game_player(game, player):
     GamePlayer.objects.create(game=game, player=player,
                               added_by=game.user_turn,
@@ -136,13 +143,16 @@ def end_game(request):
     user_lost.save()
     user_won.save()
 
+    # TODO: Check if this works correctly
+    request.session.pop("game_id")
+    request.session.pop("played_players")
+    request.session.pop("last_player_id")
+
     return JsonResponse({'status': 200})
 
 
 
 # TODO: Limit on played clubs links? I.E. Liverpool has been played X times already
 # TODO: Limited skips? Go back to the other user with the same player. OR play a random top player (>40m tm)
-# TODO: Add number of turn being played.
 
 # TODO: Open card before running index, asking the user for his username.
-# TODO: After first: play game, create instance of 'Game' to then reference and change turns.
