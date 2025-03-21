@@ -6,32 +6,64 @@ from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from unidecode import unidecode
 
+from footballnerds.forms import RegistrationForm
 from footballnerds.models import Player, Game, User, GamePlayer
 
 
 def index(request):
     return render(request, "index.html")
 
-#TODO
 def signup(request):
-    return render(request, "signup.html")
+    if request.method == "POST":
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password1'])
+            user.save()
 
-#TODO
+            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password1'])
+
+            if user:
+                login(request, user)
+                return redirect('start_game')
+            else:
+                # Log error if user is not authenticated
+                form.add_error(None, "Authentication failed. Please try again.")
+    else:
+        form = RegistrationForm()
+
+    return render(request, 'signup.html', {
+        'form': form,
+    })
+
+# TODO: Add error messages
 def login_user(request):
-    return render(request, "login.html")
+    if request.method == 'POST':
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('start_game')
+        else:
+            return redirect('login')
+    else:
+        return render(request, "login.html")
+
 
 def play_as_guest(request):
     count = User.objects.filter(username__startswith="Guest").count()
-    username = f"Guest#{count + 1}"
-    password = "ajhdfkjhkajdshf"
+    username = f"Guest #{count + 1}"
+    password = "ajhdfkjhkajdshf" # TODO: Set random password
 
-    user = User.objects.create(username=username, password=password)
-    request.session["username"] = user.username
+    user = User.objects.create(username=username)
+    user.set_password(password)
+    user.save()
+    login(request, user)
     return redirect("start_game")
 
 def start_game(request):
-    username = request.session.get("username")
-    user = User.objects.get(username=username)
+    user = request.user
 
     # TEMPORAL
     user2, _ = User.objects.get_or_create(
@@ -45,7 +77,7 @@ def start_game(request):
         user_turn=user
     )
 
-    #Maybe it's better to pass the game_id as a parameter to every
+    # Maybe it's better to pass the game_id as a parameter to every
     # function and not search it in session every time I want to modify whose turn it is
     request.session["game_id"] = new_game.game_id
 
