@@ -13,6 +13,7 @@ from footballnerds.models import Player, Game, User, GamePlayer
 def index(request):
     return render(request, "index.html")
 
+# TODO: Change style
 def signup(request):
     if request.method == "POST":
         form = RegistrationForm(request.POST)
@@ -37,6 +38,7 @@ def signup(request):
     })
 
 # TODO: Add error messages
+# TODO: Change style
 def login_user(request):
     if request.method == 'POST':
         username = request.POST["username"]
@@ -175,7 +177,6 @@ def end_game(request):
     user_lost.save()
     user_won.save()
 
-    # TODO: Check if this works correctly
     request.session.pop("game_id")
     request.session.pop("played_players")
     request.session.pop("last_player_id")
@@ -186,5 +187,5 @@ def end_game(request):
 
 # TODO: Limit on played clubs links? I.E. Liverpool has been played X times already
 # TODO: Limited skips? Go back to the other user with the same player. OR play a random top player (>40m tm)
-
-# TODO: Open card before running index, asking the user for his username.
+# TODO: Keep user logged in.
+# TODO: Accelerate timer as turns go on. Maybe after turn 20, 15s max or something.
