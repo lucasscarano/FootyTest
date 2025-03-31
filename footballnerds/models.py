@@ -48,6 +48,8 @@ class Nationality(models.Model):
 class User(AbstractUser):
     username = models.CharField(max_length=30, null=False, unique=True)
     nationality = models.ForeignKey('Nationality', on_delete=models.CASCADE, null=True)
+
+    elo = models.IntegerField(default=1000)
     wins = models.IntegerField(default=0)
     losses = models.IntegerField(default=0)
 

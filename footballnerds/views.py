@@ -11,6 +11,8 @@ from footballnerds.models import Player, Game, User, GamePlayer
 
 
 def index(request):
+    if request.user.is_authenticated and not request.user.username.startswith('Guest #'):
+        return redirect('start_game')
     return render(request, "index.html")
 
 # TODO: Change style
@@ -28,7 +30,6 @@ def signup(request):
                 login(request, user)
                 return redirect('start_game')
             else:
-                # Log error if user is not authenticated
                 form.add_error(None, "Authentication failed. Please try again.")
     else:
         form = RegistrationForm()
@@ -67,7 +68,8 @@ def play_as_guest(request):
 def start_game(request):
     user = request.user
 
-    # TEMPORAL
+    # TODO: Get the other user.
+    #  TEMPORAL FIX
     user2, _ = User.objects.get_or_create(
         username="Felipe",
         nationality_id=9,
@@ -187,5 +189,6 @@ def end_game(request):
 
 # TODO: Limit on played clubs links? I.E. Liverpool has been played X times already
 # TODO: Limited skips? Go back to the other user with the same player. OR play a random top player (>40m tm)
-# TODO: Keep user logged in.
 # TODO: Accelerate timer as turns go on. Maybe after turn 20, 15s max or something.
+# TODO: Matchmaking// WEBSOCKETS https://blog.heroku.com/in_deep_with_django_channels_the_future_of_real_time_apps_in_django
+# TODO: Elo system
